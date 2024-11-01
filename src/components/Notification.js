@@ -4,10 +4,9 @@ import '../styles/styles.css';
 const Notification = ({ message }) => {
     return (
         <div className="notification">
-            <p>{message}</p>
+            {message}
         </div>
     );
 };
 
 export default Notification;
-

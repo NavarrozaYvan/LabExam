@@ -1,25 +1,38 @@
+// src/components/BookList.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/styles.css';
 
-const BookList = ({ books, onDelete }) => {
+const BookList = ({ books, onDelete, onEdit, showViewButton }) => {
     return (
-        <div>
-            <div>
-                <h2>Book List</h2>
-                <Link to="/add" className="button button-edit">Add New Book</Link>
-            </div>
-            <div className="book-list">
+        <div className="book-list">
+            <h2>Book List</h2>
+            <div className="card-container">
                 {books.map((book) => (
-                    <div className="card" key={book.id}>
-                        <div className="card-content">
-                            <h3 className="card-title">{book.title}</h3>
-                            <p>Author: {book.author}</p>
-                        </div>
-                        <div>
-                            <Link to={`/view/${book.id}`} className="button button-view">View</Link>
-                            <Link to={`/edit/${book.id}`} className="button button-edit">Edit</Link>
-                            <button onClick={() => onDelete(book.id)} className="button button-delete">Delete</button>
+                    <div key={book.id} className="card">
+                        <h3>{book.title}</h3>
+                        <p>Author: {book.author}</p>
+                        <div className="card-actions">
+                            {showViewButton ? (
+                                <Link to={`/view/${book.id}`}>
+                                    <button className="view-button" aria-label={`View details for ${book.title}`}>View</button>
+                                </Link>
+                            ) : (
+                                <>
+                                    <button 
+                                        onClick={() => onEdit(book.id)} 
+                                        className="edit-button" 
+                                        aria-label={`Edit ${book.title}`}>
+                                        Edit
+                                    </button>
+                                    <button 
+                                        onClick={() => onDelete(book.id)} 
+                                        className="delete-button" 
+                                        aria-label={`Delete ${book.title}`}>
+                                        Delete
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 ))}

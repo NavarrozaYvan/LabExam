@@ -2,124 +2,54 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/styles.css';
 
-const BookForm = () => {
+const BookDetails = ({ onNotify }) => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        title: '',
-        author: '',
-        published_year: '',
-        genre: '',
-        description: '',
-    });
-    const [popupMessage, setPopupMessage] = useState('');
+    const [book, setBook] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        if (id) {
-            const fetchBook = async () => {
-                try {
-                    const response = await fetch(`http://localhost:8000/api/books/${id}`);
-                    if (!response.ok) throw new Error('Failed to fetch book');
-                    const data = await response.json();
-                    setFormData(data);
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-            fetchBook();
-        }
+        const fetchBookDetails = async () => {
+            try {
+                const response = await fetch(`http://localhost:8000/api/books/${id}`);
+                if (!response.ok) throw new Error('Failed to fetch book details');
+                const data = await response.json();
+                setBook(data);
+            } catch (error) {
+                setError(error.message);
+                console.error(error);
+            }
+        };
+        fetchBookDetails();
     }, [id]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+    if (error) return <div className="error">{error}</div>;
+    if (!book) return <div className="loading">Loading...</div>;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const method = id ? 'PUT' : 'POST';
-        const url = id ? `http://localhost:8000/api/books/${id}` : 'http://localhost:8000/api/books';
-
-        try {
-            const response = await fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-            if (!response.ok) throw new Error('Failed to save book');
-            setPopupMessage(id ? 'Book updated successfully!' : 'Book added successfully!');
-            setTimeout(() => {
-                setPopupMessage('');
-                navigate('/');
-            }, 3000);
-        } catch (error) {
-            console.error(error);
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete this book?')) {
+            try {
+                await fetch(`http://localhost:8000/api/books/${id}`, { method: 'DELETE' });
+                onNotify('Book deleted successfully!');
+                navigate('/'); // Navigate back to the book list
+            } catch (error) {
+                setError('Failed to delete the book.');
+                console.error(error);
+            }
         }
     };
 
     return (
-        <div className="form-container">
-            {popupMessage && <div className="notification">{popupMessage}</div>}
-            <form onSubmit={handleSubmit}>
-                <h2>{id ? 'Edit Book' : 'Add New Book'}</h2>
-                <div className="form-group">
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="Title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <input
-                        type="text"
-                        name="author"
-                        placeholder="Author"
-                        value={formData.author}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <input
-                        type="number"
-                        name="published_year"
-                        placeholder="Published Year"
-                        value={formData.published_year}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <input
-                        type="text"
-                        name="genre"
-                        placeholder="Genre"
-                        value={formData.genre}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <textarea
-                        name="description"
-                        placeholder="Description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="button-group">
-                    <button type="submit">{id ? 'Update Book' : 'Add Book'}</button>
-                    <button type="button" onClick={() => navigate('/')}>Cancel</button>
-                </div>
-            </form>
+        <div className="details-container">
+            <h2>{book.title}</h2>
+            <p><strong>Author:</strong> {book.author}</p>
+            <p><strong>Published Year:</strong> {book.published_year}</p>
+            <p><strong>Genre:</strong> {book.genre}</p>
+            <p><strong>Description:</strong> {book.description}</p>
+            <button onClick={() => navigate('/')} className="back-button">Back</button>
+            
         </div>
     );
 };
 
-export default BookForm;
+export default BookDetails;

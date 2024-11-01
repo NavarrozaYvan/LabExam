@@ -1,10 +1,13 @@
+// src/pages/Home.js
 import React, { useEffect, useState } from 'react';
 import BookList from '../components/BookList';
-import Notification from '../components/Notification'; // Import the Notification component
+import Notification from '../components/Notification';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Home = () => {
     const [books, setBooks] = useState([]);
     const [notification, setNotification] = useState('');
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const fetchBooks = async () => {
         try {
@@ -21,29 +24,16 @@ const Home = () => {
         fetchBooks();
     }, []);
 
-    const handleDelete = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:8000/api/books/${id}`, {
-                method: 'DELETE',
-            });
-            if (!response.ok) throw new Error('Failed to delete book');
-            setNotification('Book deleted successfully!');
-            fetchBooks();
-            setTimeout(() => {
-                setNotification('');
-            }, 3000);
-        } catch (error) {
-            console.error(error);
-        }
+    const handleNotification = (message) => {
+        setNotification(message);
+        setTimeout(() => setNotification(''), 3000); // Automatically hide notification after 3 seconds
     };
 
     return (
         <div>
-            <h1>Book Management System</h1>
-            <BookList books={books} onDelete={handleDelete} />
-            {notification && (
-                <Notification message={notification} onClose={() => setNotification('')} />
-            )}
+            <h1>Book List</h1>
+            <BookList books={books} showViewButton={true} onNotify={handleNotification} />
+            {notification && <Notification message={notification} />}
         </div>
     );
 };

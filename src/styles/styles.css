@@ -1,225 +1,391 @@
-/* styles.css */
-
-/* Blue Neon Color Palette */
-:root {
-    --neon-dark-blue:var(--dark-blue);
-    --neon-blue: #0ff;         /* Neon Blue */
-    --dark-blue: #001f3f;      /* Deep Blue */
-    --light-gray: #f3f4f6;     /* Light Gray for subtle elements */
-    --neon-border: #00bfff;    /* Neon Border Color */
-    --neon-hover: #005f9e;     /* Hover Effect */
-    --background-dark: #001529; /* Dark Background */
-    --card-bg: #012a4a;        /* Card Background */
-}
-
-/* General Body */
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: var(--background-dark); /* Set background color for entire app */
-    color: var(--light-gray);
+    background-color: #1a1a1a;
+    color: #f5f5f5;
     margin: 0;
     padding: 0;
 }
 
-/* General Headings */
-h1, h2 {
-    color: var(--neon-blue);
-    text-shadow: 0px 0px 5px var(--neon-blue);
+h1, h2, h3 {
+    color: #f5f5f5;
+    text-shadow: 0 0 5px #fff; /* Neon white shadow */
 }
 
-/* Card Style */
+.card-container {
+    display: flex;
+    flex-direction: column; /* One card per column */
+    gap: 1rem;
+    padding: 1rem;
+}
+
 .card {
-    border: 1px solid var(--neon-border);
+    background-color: #1a1a1a;
+    border: 1px solid #fff; /* Neon white border */
+    padding: 1rem;
     border-radius: 8px;
-    padding: 15px;
-    margin: 10px;
-    background-color: var(--card-bg);
-    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Neon shadow */
+    transition: transform 0.3s; /* Card hover effect */
 }
 
 .card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.5);
+    transform: scale(1.05); /* Card hover effect */
 }
 
-.card-title {
-    font-size: 1.5em;
+.card-actions {
+    display: flex;
+    justify-content: space-between; /* Distribute buttons evenly */
 }
 
-.card-content {
-    margin-bottom: 15px;
+
+/* Sidebar Navigation */
+.sidebar {
+    background-color: #000;
+    padding: 1rem;
+    width: 200px;
+    height: 100vh;
+    color: #fff; /* Neon white */
+    position: fixed;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Neon shadow */
+    transition: transform 0.3s; /* For closing animation */
+}
+
+/* Class to hide sidebar */
+.sidebar.hidden {
+    transform: translateX(-100%); /* Move sidebar off-screen */
+}
+
+/* Details and Form Container */
+.details-container, .form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 255, 255, 0.2);
 }
 
 /* Button Styles */
-.button {
-    padding: 10px 15px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
+button {
+    background-color: #333;
+    color: #fff; /* Neon white */
+    border: 1px solid #fff; /* Neon white border */
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
     cursor: pointer;
-    color: var(--dark-blue);
-    background-color: var(--neon-blue);
-    font-weight: bold;
-    text-shadow: 0px 0px 3px var(--neon-blue);
-    transition: box-shadow 0.3s, transform 0.3s;
+    margin: 0.5rem 0;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Button Hover Effect */
-.button:hover {
-    box-shadow: 0 0 8px var(--neon-blue), 0 0 12px var(--neon-border);
-    transform: scale(1.05);
+button:hover {
+    background-color: #fff; /* Neon white */
+    color: #333;
 }
 
-/* Specific Button Styles for Card Buttons */
-.button-view {
-    background-color: var(--neon-blue);
+/* Sidebar Navigation */
+.sidebar {
+    background-color: #000;
+    padding: 1rem;
+    width: 200px;
+    height: 100vh;
+    color: #fff; /* Neon white */
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease; /* Smooth transition for closing */
+    transform: translateX(-100%); /* Hidden by default */
 }
 
-.button-edit {
-    background-color: #28a745; /* Green for edit */
-    color: #ffffff;
-    text-shadow: none;
+.sidebar.open {
+    transform: translateX(0); /* Show sidebar */
 }
 
-.button-delete {
-    background-color: #dc3545; /* Red for delete */
-    color: #ffffff;
-    text-shadow: none;
-}
-
-/* Add Book Button */
-.add-book-button {
-    padding: 12px 20px;
-    margin: 20px auto;
+.menu-link {
+    color: #fff; /* Neon white */
+    text-decoration: none;
     display: block;
-    width: fit-content;
-    font-size: 18px;
+    padding: 0.5rem;
+    margin: 1rem 0;
+    transition: background-color 0.3s; /* Hover effect */
+}
+
+.menu-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Light hover effect */
+}
+
+.active-link {
     font-weight: bold;
-    color: var(--dark-blue);
-    background-color: var(--neon-blue);
-    border-radius: 8px;
-    text-align: center;
-    text-shadow: 0px 0px 4px var(--neon-blue);
-    transition: box-shadow 0.3s, transform 0.3s;
+    color: #fff; /* Neon white */
 }
 
-.add-book-button:hover {
-    box-shadow: 0 0 10px var(--neon-blue), 0 0 15px var(--neon-border);
-    transform: scale(1.05);
-}
-
-/* Notification Pop-up */
+/* Notification */
 .notification {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: #fff; /* Neon white */
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+    z-index: 1000;
+}
+
+/* Popup Styles */
+.edit-book-form {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--neon-blue);
-    color: var(--dark-blue);
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
-    z-index: 1000;
-    transition: opacity 0.5s ease;
-    text-align: center;
-}
-
-/* Form Container */
-.form-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
+    background-color: #1a1a1a;
+    padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-    background-color: var(--card-bg);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+    z-index: 1000;
+    max-width: 400px;
 }
 
-.form-group {
-    margin-bottom: 15px;
+/* Loading and Other Text */
+.loading {
+    text-align: center;
+    color: #fff; /* Neon white */
+    font-weight: bold;
 }
 
-/* Input and Textarea */
-input[type="text"],
-input[type="number"],
-textarea {
+/* Form Container (Popup Styling) */
+.form-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    z-index: 10;
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #fff; /* Neon white */
+}
+
+/* Form Input Styling */
+.form-container input,
+.form-container textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid var(--neon-border);
+    margin-bottom: 15px;
+    border: 1px solid #333;
     border-radius: 4px;
     font-size: 16px;
-    background-color: #001021;
-    color: var(--neon-blue);
+    color: #fff; /* Neon white */
+    background-color: #1a1a1a;
+    transition: border-color 0.3s;
 }
 
-textarea {
-    height: 100px;
-    resize: vertical;
+.form-container input:focus,
+.form-container textarea:focus {
+    border-color: #fff; /* Neon white */
+    outline: none;
 }
 
+/* Button Group Styling */
 .button-group {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
-button {
-    padding: 10px 15px;
+.button-group button {
+    padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
-    background-color: var(--neon-blue);
-    color: var(--dark-blue);
     font-size: 16px;
-    font-weight: bold;
-    text-shadow: 0px 0px 5px var(--neon-blue);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover {
-    background-color: var(--neon-hover);
+/* Add and Update Button Styling */
+.button-group button[type="submit"] {
+    background-color: #333;
+    color: #fff; /* Neon white */
+    border: 1px solid #fff; /* Neon white border */
 }
 
-/* Book Details */
-.details-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 191, 255, 0.5);
-    background-color: var(--card-bg);
+.button-group button[type="submit"]:hover {
+    background-color: #fff; /* Neon white */
+    color: #333;
 }
 
-.details {
-    margin-bottom: 20px;
+/* Cancel Button Styling */
+.button-group button[type="button"] {
+    background-color: #555;
+    color: #fff; /* Neon white */
 }
 
-.detail-item {
-    margin-bottom: 15px;
-    font-size: 18px;
-    color: var(--neon-blue);
+.button-group button[type="button"]:hover {
+    background-color: #777;
 }
 
-strong {
-    color: var(--neon-blue);
+
+
+
+/* styles.css */
+
+/* Navigation Menu Styles */
+.navbar {
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a; /* Dark background for the menu */
+    padding: 1rem;
+    position: fixed; /* Fixed position for the menu */
+    top: 0;
+    left: 0; /* Aligns to the left */
+    width: 200px; /* Width of the menu */
+    height: 100vh; /* Full height */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5); /* Slight shadow for depth */
+    z-index: 100; /* Ensures the menu is above other elements */
 }
 
-.back-button {
-    display: block;
-    margin: 0 auto;
-    padding: 10px 15px;
-    border: none;
+.navbar-title {
+    color: #fff; /* Neon white for title */
+    margin-bottom: 1rem;
+    font-size: 1.5rem; /* Larger font size for the title */
+    text-align: center;
+}
+
+.menu-link {
+    color: #f5f5f5; /* Neon white */
+    text-decoration: none;
+    padding: 0.5rem 1rem;
     border-radius: 4px;
-    cursor: pointer;
-    background-color: var(--neon-blue);
-    color: var(--dark-blue);
-    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0.5rem 0; /* Margin for spacing */
 }
 
-.back-button:hover {
-    background-color: var(--neon-hover);
+.menu-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Light hover effect */
+    color: #fff; /* Highlight text on hover */
 }
 
-/* Home Background */
-.home-page {
-    background-color: var(--background-dark);
-    padding: 20px;
+.active-link {
+    font-weight: bold; /* Bold for active link */
+    background-color: rgba(255, 255, 255, 0.2); /* Highlight active link */
+}
+
+/* Adjust for main content */
+.main-content {
+    margin-left: 220px; /* To ensure the main content doesn't overlap with the navbar */
+    padding: 1rem; /* Padding for the content area */
+}
+
+/* Styles for Edit Book Form */
+.edit-book-form {
+    position: fixed; /* Fixed position for the form */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Centering transform */
+    background-color: #000; /* Black background for the Edit form */
+    padding: 2rem; /* Padding inside form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3); /* Light shadow for depth */
+    z-index: 1000; /* Ensure above other elements */
+    max-width: 500px; /* Maximum width for the form */
+    width: 100%; /* Full width up to max */
+}
+
+/* Form Title for Edit */
+.edit-book-form h2 {
+    margin-bottom: 20px; /* Margin below title */
+    font-size: 24px; /* Font size for title */
+    color: #fff; /* Neon white for contrast */
+    text-align: center; /* Center title */
+}
+
+/* Label Styles for Form Inputs */
+.edit-book-form label {
+    font-size: 16px; /* Font size for labels */
+    margin-bottom: 8px; /* Margin below labels */
+    color: #f5f5f5; /* Light text color for readability */
+    display: block; /* Block display for labels */
+}
+
+/* Input and Textarea Styling for Edit Form */
+.edit-book-form input,
+.edit-book-form textarea {
+    width: 100%; /* Full width inputs */
+    padding: 10px; /* Padding inside inputs */
+    margin-bottom: 15px; /* Margin below inputs */
+    border: 1px solid #fff; /* White border for inputs */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size for inputs */
+    color: #000; /* Black text for inputs */
+    background-color: #fff; /* White background for inputs */
+    transition: border-color 0.3s; /* Smooth transition for border */
+}
+
+.edit-book-form input:focus,
+.edit-book-form textarea:focus {
+    border-color: #ffffff; /* Neon yellow border on focus */
+    outline: none; /* Remove outline */
+}
+
+/* Button Group for Edit Form */
+.edit-book-form .button-group {
+    display: flex; /* Flexbox for button group */
+    justify-content: space-between; /* Distribute buttons evenly */
+    margin-top: 20px; /* Margin above button group */
+}
+
+/* Save and Update Button Styles */
+.edit-book-form .button-group button[type="submit"] {
+    background-color: #333; /* Dark background for submit button */
+    color: #fff; /* Neon white text */
+    border: 1px solid #f6f6f6; /* Neon yellow border */
+    flex: 1; /* Allow button to grow */
+    margin-right: 10px; /* Margin between buttons */
+}
+
+.edit-book-form .button-group button[type="submit"]:hover {
+    background-color: #fffffe; /* Neon yellow background on hover */
+    color: #333; /* Dark text on hover */
+}
+
+/* Cancel Button Styling */
+.edit-book-form .button-group button[type="button"] {
+    background-color: #555; /* Medium dark background for cancel button */
+    color: #fff; /* Neon white text */
+    flex: 1; /* Allow button to grow */
+}
+
+.edit-book-form .button-group button[type="button"]:hover {
+    background-color: #777; /* Lighten background on hover */
+}
+
+
+
+
+/* src/styles/Notification.css */
+
+.notification {
+    position: fixed; /* Fixed positioning to stay in place */
+    top: 20px; /* Adjust the distance from the top */
+    left: 20px; /* Set to the left side of the screen */
+    background-color: rgba(238, 63, 63, 0.9); /* Red background */
+    color: white; /* White text */
+    padding: 15px 20px; /* Padding around the text */
+    border-radius: 5px; /* Slightly rounded corners */
+    z-index: 1000; /* Ensures it's on top of other elements */
+    transition: opacity 0.5s ease, top 0.5s ease; /* Transition effects */
+    opacity: 1; /* Default opacity */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Adds a shadow effect */
+}
+
+.notification.fade-out {
+    opacity: 0; /* Fade out effect */
+    top: 10px; /* Slide effect when fading out */
 }
